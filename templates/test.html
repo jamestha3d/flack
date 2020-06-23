@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title></title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="{{url_for('static', filename='flack.js')}}"></script>
+    <link rel="stylesheet" href="static/styles.css" type="text/css">
+
+
+
+    <!-- LOGGED IN PAGE !-->
+    
+    
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+	
+	<script id="chatpage" type="text/x-handlebars-template">
+		<h1> Chat room: {% raw -%} {{value}} {%- endraw %}</h1>
+		<br><br><br><br>
+		<div id="chatlist"> </div>
+		<div>
+			<input id ="chatmsg1" type="text" placeholder="chat message here">
+			<input id="chat1" type="submit" >
+		</div>
+
+	</script>
+
+
+    
+  </head>
+  <body>
+
+
+  	<nav class="navbar navbar-light bg-light">
+	  <form class="form-inline">
+	    <div class="input-group">
+	      <div class="input-group-prepend">
+	        <span class="input-group-text" id="basic-addon1">@</span>
+	      </div>
+	      <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+	    </div>
+	  </form>
+	</nav>
+	<h1> Hello </h1>
+	<button id="logout"> Logout</button>
+	<p id="text"></p> <hr>
+
+
+	<input id="channel_name" type="text" autofocus placeholder="New Channel">
+	<button id="addchannel" type="submit"> Add</button>
+
+
+	<div id="container">
+		<div id="alerts"></div>
+		<div id="content"> 
+		</div>
+	</div>
+
+	<div>
+			<input id ="chatmsg" type="text" placeholder="chat message here">
+			<button id="chatsend" type="submit" > Button </button>
+		</div>
+	<div id="chatlist"> </div>
+  </body>
+
+
+</html>
