@@ -13,10 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.querySelector("#text").innerHTML = txt;
 	}
 	else{
-		document.querySelector("#text").innerHTML = localStorage.getItem('username');
+		document.querySelector("#text").innerHTML = "Display Name:" + localStorage.getItem('user');
 	}
-
-	const template = Handlebars.compile(document.querySelector('#chatpage').innerHTML);
 
 
 
@@ -98,16 +96,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     socket.on('chat received', data => {
 
+    	const template = Handlebars.compile(document.querySelector('#chatpost').innerHTML);
+
     	const msg = data.msg;
     	const time = data.time;
     	const channel = data.channel;
     	const username = data.username;
-    	const chatpost = document.createElement('div');
-    	chatpost.setAttribute("class", "chatmsgs");
-    	chatpost.innerHTML = username + ' : ' + msg + ' @ ' + time;
+    	//const chatpost = document.createElement('div');
+    	//chatpost.setAttribute("class", "chatmsg");
+    	//chatpost.innerHTML = username + ' : ' + msg + ' @ ' + time;
+
+    	const chatpost = template({'msg': msg, 'user': username, 'time': time});
+    	const divchat = document.createElement('div');
+    	divchat.setAttribute("class", "chatmsg" )
+    	divchat.innerHTML = chatpost;
+    	console.log(chatpost);
     	const user_channel = localStorage.getItem('channel');
     	if (user_channel === channel){
-    		document.querySelector('#chatroom').append(chatpost);
+    		document.querySelector('#chatroom').append(divchat);
     	}
     	
 

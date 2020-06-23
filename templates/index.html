@@ -10,21 +10,22 @@
 <script src="{{url_for('static', filename='flack.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
   
-<script id="chatpage" type="text/x-handlebars-template">
-  <h1> Chat room: {% raw -%} {{value}} {%- endraw %}</h1>
-  <br><br><br><br>
-  <div id="chatlist"> </div>
-  <div>
-    <input id ="chatmsg" type="text" placeholder="chat message here">
-    <input id="chat" type="submit" >
-  </div>
+<script id="chatpost" type="text/x-handlebars-template">
+
+  <img src="static/chatlogo.png" alt="Avatar" style="width:10%;">
+  {% raw -%}
+  <a> {{user}} </a>
+  <p> {{msg}} </p>
+  <span class="time-right">{{time}}</span> 
+  {%- endraw %}
+
 
 </script>
 </head>
 <body>
 
 <div id="channels" class="sidenav">
-  <h2 href="#">Channels</h2>
+  <h2>Channels</h2>
   <input type="text" id="channelname" placeholder="Channel Name">
   <button id="addchannel"> + </button>
   
