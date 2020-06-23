@@ -104,8 +104,12 @@ document.addEventListener('DOMContentLoaded', () => {
     	const username = data.username;
     	const chatpost = document.createElement('div');
     	chatpost.setAttribute("class", "chatmsgs");
-    	chatpost.innerHTML = username + ' : ' + msg + ' @ ' + time + ' on ' + channel;
-    	document.querySelector('#chatroom').append(chatpost);
+    	chatpost.innerHTML = username + ' : ' + msg + ' @ ' + time;
+    	const user_channel = localStorage.getItem('channel');
+    	if (user_channel === channel){
+    		document.querySelector('#chatroom').append(chatpost);
+    	}
+    	
 
 
     });
