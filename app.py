@@ -9,14 +9,20 @@ app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app)
 
 
-channels = []
+channels_list = []
 chats={}
 
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", channels = channels_list, chats = chats)
 
+@app.route("/channels")
+def channels(data):
+	channel = data["channel"]
+	lists = jsonify(chats[channel])
+
+	return jsonify({"channels": lists})
 
 #@app.route("/login", methods=["GET", "POST"])
 #def login():
@@ -35,10 +41,18 @@ def index():
 @socketio.on("add channel")
 def add_channel(data):
 	channel = data["channel"]
-	channels.append(channel)
-	chats[channel] = []
-	emit("channel added", {"channel": channel}, broadcast=True)
-	print('emited')
+	if channel in chats:
+		#error
+		username = data["user"]
+		emit("channel already exists", {"success": False, "user": username}, broadcast=True)
+
+	else:
+		channels_list.append(channel)
+		#because i am taking the channel name from document.innerHTML
+		#channel = ' ' + channel + ' '
+		chats[channel] = []
+		emit("channel added", {"channel": channel, "success": True}, broadcast=True)
+		print('emited')
 
 
 
@@ -52,7 +66,7 @@ def chat(data):
 	chat["msg"] = msg
 	chat["username"] = username
 	chat["time"] = time
-	chats[channel] = []
+	#chats[channel] = []
 	chats[channel].append(chat)
 	emit("chat received", {"msg": msg, "username": username, "time": time, "channel": channel}, broadcast=True)
 
@@ -62,6 +76,7 @@ def chat(data):
 	channel = data["channel"]
 
 	emit("joined", {"user": username, "channel": channel}, broadcast=True)
+
 
 
 

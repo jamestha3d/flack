@@ -26,60 +26,170 @@ body {
   color: #f1f1f1;
 }
 
-.main {
+#nochannel{
+  color: red;
+}
+
+.maindiv {
+  height: 100%;
   margin-left: 200px; /* Same as the width of the sidenav */
+  margin-right: 150px; /* Same as the width of the alertnav */
+  position: relative;
+
+  
+
+
 }
 
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
+  .alerts {padding-top: 15px;}
 }
 
-.main h2{
+#welcome {
   text-align: center;
   margin-top: 30px;
 }
 
-.content{
+/*.content{
   margin-left: 100px;
   
-}
+}*/
 
 .channels{
   display:grid;
 }
 
-#alerts{
-  height:100%;
-  width: 150px;
-  position:fixed;
-  background-color: #808080;
-}
 
+
+.alerts {
+  height: 100%;
+  width: 150px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  /*background-color: #808080;*/
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+/* alerts*/
 #alerts a{
   display:grid;
   font-size: 15px;
 }
 
 #chatroom {
-  width: 40%;
-  height: 100%;
-  margin-left: 150px;
+  width: 50%;
+  height: 80%;
+  margin-left: 20px;
+  margin-right: 20px;
   position:fixed;
   text-align: center;
-}
+  overflow: auto;
 
+  
+  /*====*/
+  
+  
+  
+
+}
+/* input field for new channel name*/
 #channelname{
   background-color: yellow;
 }
 
-.chatmsgs{
-  display:grid;
+/* diplay name*/
+#text{
+  color:blue;
+}
+
+/* Chat box which holds input and send button*/
+#chatlist{
+  width: 50%;
+  position:fixed;
+  margin-left: 20px;
+  margin-right: 20px;
+  bottom: 20px;
+
 }
 
 
 
 
+
+.maindiv .form-control{
+  display: inline-block;
+  width: 80%;
+}
+/*=============================================*/
+
+
+.chatbody {
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.chatmsg {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+  /*====*/
+ 
+}
+
+#userid {
+  float: left;
+  left: 0;
+  top: 0;
+  color:blue;
+
+}
+
+.darker {
+  border-color: #ccc;
+  background-color: #ddd;
+}
+
+#msgbox{
+  text-align: left;
+  color: green;
+}
+
+.chatmsg::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.chatmsg img {
+  float: left;
+  max-width: 60px;
+  width: 100%;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+.chatmsg img.right {
+  float: right;
+  margin-left: 20px;
+  margin-right:0;
+}
+
+.time-right {
+  float: right;
+  color: #aaa;
+}
+
+.time-left {
+  float: left;
+  color: #999;
+}
 
 
 

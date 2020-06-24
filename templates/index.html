@@ -12,10 +12,10 @@
   
 <script id="chatpost" type="text/x-handlebars-template">
 
-  <img src="static/chatlogo.png" alt="Avatar" style="width:10%;">
+  <img src="static/chatlogo.png" alt="Avatar" style="width:5%;">
   {% raw -%}
-  <a> {{user}} </a>
-  <p> {{msg}} </p>
+  <a id="userid"> {{user}} </a>
+  <span id="msgbox"> {{msg}} </span>
   <span class="time-right">{{time}}</span> 
   {%- endraw %}
 
@@ -27,24 +27,36 @@
 <div id="channels" class="sidenav">
   <h2>Channels</h2>
   <input type="text" id="channelname" placeholder="Channel Name">
+
   <button id="addchannel"> + </button>
+
+  {% for channel in channels %}
+
+  <button class="channels" data-channel="{{channel}}"> {{channel}} </button>
+
+  {% else %}
+  <a id="nochannel"> No Channel </a>
+  {% endfor %}
+
+
+  
+
   
 </div>
 
-<div class="main">
-  <div class="content">
-    <h2>Welcome to Flack!</h2>
-    <div id="text"></div>
-    
-    
-  </div>
-  <div id="alerts" >
-  </div>
+<div class="maindiv" id="maindiv">
+<div id="text"></div>
+ <a> {{chats}} </a>
+
   <div id="chatroom">
+    <h1 id="welcome">Welcome to Flack! </h1>
   </div>
-  <div id="chatcontent">
-</div>
   
+  
+</div>
+
+<div id="alerts" class="alerts">
+  <h2> Alerts </h2>
 </div>
 
 
