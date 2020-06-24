@@ -11,18 +11,21 @@ socketio = SocketIO(app)
 
 channels_list = []
 chats={}
+test = []
 
 
 @app.route("/")
 def index():
-    return render_template("index.html", channels = channels_list, chats = chats)
+    return render_template("index.html", channels = channels_list)
 
-@app.route("/channels")
-def channels(data):
-	channel = data["channel"]
-	lists = jsonify(chats[channel])
-
-	return jsonify({"channels": lists})
+@app.route("/channels", methods=["POST"])
+def channels():
+	channel = request.form.get("channel")
+	test.append(channel)
+	if channel in chats:
+		return jsonify(chats[channel])
+	else:
+		return jsonify({"error": True, "reqchan": channel})
 
 #@app.route("/login", methods=["GET", "POST"])
 #def login():

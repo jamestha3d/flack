@@ -22,6 +22,14 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 	else{
 		document.querySelector("#text").innerHTML = localStorage.getItem('user');
+
+	}
+
+
+
+	if(localStorage.getItem('channel')){
+		const channel = localStorage.getItem('channel');
+		
 	}
 
 
@@ -64,6 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		newchannel.className = ('channels');
 		newchannel.innerHTML = data.channel;
 		newchannel.onclick = addchannel;
+		//edit
+		//newchannel.setAttribute('id', data.channel);
 		newchannel.setAttribute('data-channel', data.channel);
 		document.querySelector("#channels").append(newchannel);
 		console.log('new channel added');
@@ -150,6 +160,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			h1.setAttribute("id", "chatroom_header");
 			const div = document.createElement('div');
 			div.setAttribute("id", "chatlist");
+			
+			//edit1
+			//const form1 = document.createElement('form');
+
 			const input1 = document.createElement('input');
 			input1.setAttribute("id", "chatmsg");
 			input1.setAttribute("type", "text");
@@ -176,6 +190,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			};
 			div.append(input2);
+
+			//edit2
+			//form1.append(div);
+
 			const div2 = document.createElement('div');
 			div2.setAttribute("id", "chatroom_head");
 			div2.append(h1);
@@ -196,34 +214,45 @@ document.addEventListener('DOMContentLoaded', () => {
 			
 
 			const request = new XMLHttpRequest();
-			console.log('request started');
-			request.open('GET', '/channels');
+			request.open('POST', '/channels');
 			request.onload = () => {
 
-				console.log('request returned');
+
 
 				const data2 = JSON.parse(request.responseText); 
 				console.log(data2);
-				data2.forEach(function(){
+				if(!data2.error){
+					data2.forEach(function(result){
+						console.log('error is false');
 
-			    	const msg2 = data2.msg;
-			    	const time2 = data2.time;
-			    	const username2 = data2.username;
-	    	    	const chatpost = template({'msg': msg2, 'user': username2, 'time': time2});
-			    	const divchat = document.createElement('div');
-			    	divchat.setAttribute("class", "chatmsg" )
-			    	divchat.innerHTML = chatpost;
-			    	document.querySelector('#chatroom').append(divchat);
-				});
+				    	const msg2 = result.msg;
+				    	console.log(msg2);
+				    	const time2 = result.time;
+				    	const username2 = result.username;
+		    	    	const chatpost = template({'msg': msg2, 'user': username2, 'time': time2});
+				    	const divchat = document.createElement('div');
+				    	divchat.setAttribute("class", "chatmsg" )
+				    	divchat.innerHTML = chatpost;
+				    	document.querySelector('#chatroom').append(divchat);
+					});
+
+
+				}
+				else{
+					console.log('error is true');
+				}
+
 
 			}
 			const data3 = new FormData();
 			data3.append('channel', channel_new);
+			console.log('requesting....' + channel_new);
 			request.send(data3);
 			console.log('request sent');
 
 
 			//AJAX END ajax end
+
 			if(document.querySelector('#chatlist'))
 				document.querySelector('#chatlist').remove();
 			document.querySelector('#maindiv').append(div);
@@ -252,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		        });
 
 
-			
+			return false;
 
 
 
