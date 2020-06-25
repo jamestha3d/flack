@@ -33,7 +33,7 @@
 
   {% for channel in channels %}
 
-  <button class="channels" data-channel="{{channel}}"> {{channel}} </button>
+  <button id={{channel}} class="channels" data-channel="{{channel}}"> {{channel}} </button>
 
   {% else %}
   <a id="nochannel"> No Channel </a>
@@ -57,7 +57,7 @@
   
 </div>
 
-<div id="alerts" class="alerts">
+<div id="alerts" class="alerts" style="display:none">
   <h2> Alerts </h2>
 </div>
 

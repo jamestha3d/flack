@@ -27,19 +27,7 @@ def channels():
 	else:
 		return jsonify({"error": True, "reqchan": channel})
 
-#@app.route("/login", methods=["GET", "POST"])
-#def login():
-	# if request.method == 'GET':
-	# 	return render_template("index.html")
 
-	# else:
-
-	# #if method is called, return log in page
-
-	# #check if display name is set.
-	# #if no display name, load Login Page
-	# #if display name load welcome page.
-	# 	return redirect("/")
 
 @socketio.on("add channel")
 def add_channel(data):
@@ -69,8 +57,11 @@ def chat(data):
 	chat["msg"] = msg
 	chat["username"] = username
 	chat["time"] = time
-	#chats[channel] = []
 	chats[channel].append(chat)
+
+	if len(chats[channel]) > 100:
+		chats[channel].popleft()
+
 	emit("chat received", {"msg": msg, "username": username, "time": time, "channel": channel}, broadcast=True)
 
 @socketio.on("channel entered")
@@ -80,11 +71,3 @@ def chat(data):
 
 	emit("joined", {"user": username, "channel": channel}, broadcast=True)
 
-
-
-
-
-
-	#chats
-	#channels{}
-	#users{}

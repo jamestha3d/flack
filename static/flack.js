@@ -27,16 +27,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-	if(localStorage.getItem('channel')){
-		const channel = localStorage.getItem('channel');
+	/*if(localStorage.getItem('channel')){
+
+		document.getElementById(localStorage.getItem('channel')).click();
+
 		
-	}
+	}*/
 
 
 
 	var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 
     socket.on('connect', () => {
+
+    	if(localStorage.getItem('channel')){
+
+    		if(document.getElementById(localStorage.getItem('channel'))){
+    		document.getElementById(localStorage.getItem('channel')).click();
+
+    		}
+		
+		}
     	
     	const user = localStorage.getItem('user');
     	socket.emit('Joined', {'user': user});
@@ -104,16 +115,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     socket.on('chat received', data => {
 
-//    	const template = Handlebars.compile(document.querySelector('#chatpost').innerHTML);
 		console.log('chat received');
     	const msg = data.msg;
     	const time = data.time;
     	const channel = data.channel;
     	const username = data.username;
-    	//const chatpost = document.createElement('div');
-    	//chatpost.setAttribute("class", "chatmsg");
-    	//chatpost.innerHTML = username + ' : ' + msg + ' @ ' + time;
-
     	const chatpost = template({'msg': msg, 'user': username, 'time': time});
     	console.log('template compiled');
     	const divchat = document.createElement('div');
@@ -125,8 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
     	}
     	console.log('display on channel');
     	
-
-
     });
 
     socket.on('joined', data => {
@@ -144,26 +148,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     function addchannel(){
-			//make ajax request to server.
-			//get the content of the channel as a return JSON
-			//update respective div accordingly
 
 			const user = localStorage.getItem('user');
 			const channel_new = this.dataset.channel;
 			socket.emit('channel entered', {'channel': channel_new, 'user': user});
 			localStorage.setItem('channel', channel_new);
-			
-			//const content = template({'value': data.channel});
-
 			const h1 = document.createElement('h1');
 			h1.innerHTML = channel_new;
 			h1.setAttribute("id", "chatroom_header");
 			const div = document.createElement('div');
 			div.setAttribute("id", "chatlist");
-			
-			//edit1
-			//const form1 = document.createElement('form');
-
 			const input1 = document.createElement('input');
 			input1.setAttribute("id", "chatmsg");
 			input1.setAttribute("type", "text");
@@ -190,24 +184,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			};
 			div.append(input2);
-
-			//edit2
-			//form1.append(div);
-
 			const div2 = document.createElement('div');
 			div2.setAttribute("id", "chatroom_head");
 			div2.append(h1);
-			//div2.append(div);
-
-			//make ajax request
 
 			document.querySelector('#chatroom').innerHTML='';
 
-			//make ajax request to load previous messages
-
 			document.querySelector('#chatroom').append(h1);
-			//document.querySelector('#chatroom').append(div2);
-
 
 
 			//AJAX REQUEST make ajax request
@@ -216,8 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			const request = new XMLHttpRequest();
 			request.open('POST', '/channels');
 			request.onload = () => {
-
-
 
 				const data2 = JSON.parse(request.responseText); 
 				console.log(data2);
@@ -235,7 +216,6 @@ document.addEventListener('DOMContentLoaded', () => {
 				    	divchat.innerHTML = chatpost;
 				    	document.querySelector('#chatroom').append(divchat);
 					});
-
 
 				}
 				else{
