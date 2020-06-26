@@ -197,6 +197,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     });
 
+    socket.on('invalid session', () => {
+    	//reload page
+    	window.location.reload();
+    });
+
 
     function addchannel(){
     	document.querySelectorAll('.channels').forEach(function(button) {

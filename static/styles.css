@@ -112,7 +112,13 @@ body {
   padding-left: 30px;
   border: 1px solid #dedede;
   border-radius: 5px;
+  
+
+
+  
+
    /*====*/
+  
 }
 
 #header_all{
@@ -171,17 +177,32 @@ body {
 .chatmsg {
   border: 2px solid #dedede;
   background-color: #f1f1f1;
-  border-radius: 5px;
-  padding: 10px;
+  border-radius: 20px;
+  /*padding: 10px;*/
   margin: 10px 0px;
-  position:relative;
+  position: relative;
+  
+  width: 51%;
+  min-height: 0;
+  
+  
   /*====*/
+
+  justify-content: flex-start;
+  text-align: left;
+  float: left;
  
+}
+
+.darker{
+  float: right !important;
+  right: 0;
+  margin-left: 100px;
 }
 
 #userid {
   float: left;
-  left: 0;
+  left: 5px;
   bottom: 0;
   position: absolute;
   color: #626f78;
@@ -206,10 +227,11 @@ body {
 #msgbox{
   margin-left: 50px;
   padding: 10px;
+  font-size: 15px
   /*text-align: left;
   color: black;
   top: 0;
-  font-size: 15px;
+  ;
   left: 60px;
   
   padding: 50px;*/
@@ -232,6 +254,7 @@ body {
   width: 100%;
   /*margin-right: 20px;*/
   border-radius: 50%;
+  min-width: 30px;
 
 }
 
@@ -255,7 +278,7 @@ body {
   float: right;
   color: #aaa;
   font-size: 12px;
-  right:0;
+  right:4px;
   bottom:0;
   position:absolute;
 }

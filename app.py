@@ -72,12 +72,17 @@ def chat(data):
 	chat["msg"] = msg
 	chat["username"] = username
 	chat["time"] = time
-	chats[channel].append(chat)
+	if channel in chats:
+		chats[channel].append(chat)
+		if len(chats[channel]) > 100:
+			chats[channel].popleft()
+		emit("chat received", {"msg": msg, "username": username, "time": time, "channel": channel}, broadcast=True)
+	else:
+		emit('invalid session')
 
-	if len(chats[channel]) > 100:
-		chats[channel].popleft()
+	
 
-	emit("chat received", {"msg": msg, "username": username, "time": time, "channel": channel}, broadcast=True)
+	
 
 @socketio.on("channel entered")
 def chat(data):
