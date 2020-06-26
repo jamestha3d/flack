@@ -35,6 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	}
 
+	function updateScroll(){
+	    var element = document.getElementById("chatroom");
+	    element.scrollTop = element.scrollHeight;
+	}
+
 	
 
 	socket.on('connect', () => {
@@ -176,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
     		document.querySelector('#chatroom').append(divchat);
     	}
     	
-    	
+    	updateScroll();
     });
 
     socket.on('joined', data => {
@@ -282,6 +287,8 @@ document.addEventListener('DOMContentLoaded', () => {
 				});
 
 			}
+
+			updateScroll();
 			/*else{
 				console.log('error is true');
 			}*/

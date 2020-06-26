@@ -107,7 +107,7 @@ body {
   top: 80px;
   position:fixed;
   text-align: center;
-  overflow: auto;
+  overflow: scroll;
   padding-right: 50px;
   padding-left: 30px;
   border: 1px solid #dedede;
