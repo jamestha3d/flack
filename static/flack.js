@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+	var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 	const template = Handlebars.compile(document.querySelector('#chatpost').innerHTML);
 
 	document.querySelectorAll('.channels').forEach(function(button) {
@@ -7,26 +8,39 @@ document.addEventListener('DOMContentLoaded', () => {
 		button.onclick = addchannel;
     });
 
+	function log_user() {
+		if (!localStorage.getItem('user')){
+			var txt;
+			var person = prompt("Please Choose a display Name: ", );
+			if (person == null || person == "") {
+				txt = "Anonymous";
+	            person = 'Anonymous';
+	            localStorage.setItem('user', person);
+				document.querySelector("#text").innerHTML = txt;
+				socket.emit('start', {'user': person, 'new': 'no'});
+			} else{
+				txt = person;
+				//ajax request if person already exists
+				//TODO
+				socket.emit('start', {'user': person, 'new': 'yes'});
+			}
 
-	if (!localStorage.getItem('user')){
-		var txt;
-		var person = prompt("Please Choose a display Name: ", );
-		if (person == null || person == "") {
-			txt = "Anonymous";
-            person = 'Anonymous';
-		} else{
-			txt = person;
 		}
-		localStorage.setItem('user', person);
-		document.querySelector("#text").innerHTML = txt;
-	}
-	else{
-		document.querySelector("#text").innerHTML = localStorage.getItem('user');
+		else{
+			person = localStorage.getItem('user');
+			document.querySelector("#text").innerHTML = person;
+			socket.emit('start', {'user': person, 'new': 'no'});
+
+		}
 
 	}
 
+	
 
-
+	socket.on('connect', () => {
+		log_user();
+		//socket.emit('start');
+	})
 	/*if(localStorage.getItem('channel')){
 
 		document.getElementById(localStorage.getItem('channel')).click();
@@ -34,13 +48,23 @@ document.addEventListener('DOMContentLoaded', () => {
 		
 	}*/
 
+	socket.on('user exists', () => {
+		alert('username already taken');
+		log_user();
+	})
 
 
-	var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+
+	
 	//var socket = io.connect({transports: ['websocket']});
 
-    socket.on('connect', () => {
+    socket.on('logged_in', data => {
     	console.log('connected');
+
+    	const person_logged = data.user
+    	localStorage.setItem('user', person_logged);
+
+		document.querySelector("#text").innerHTML = person_logged;
 
     	if(localStorage.getItem('channel')){
 
@@ -51,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     			
     			else{
     				if(document.querySelector('#welcome'))
-    				document.querySelector('#welcome').innerHTML = 'Welcome To Flack! ';
+    				document.querySelector('#welcome').innerHTML = 'Welcome To Flack! <br> <br> <br> <br> <br> The Single-page Chat Site ';;
     			}
     			
 
@@ -60,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 		else{
 			if(document.querySelector('#welcome'))
-			document.querySelector('#welcome').innerHTML = 'Welcome To Flack! ';
+			document.querySelector('#welcome').innerHTML = 'Welcome To Flack! <br> <br> <br> <br> <br> The Single-page Chat Site ';
 		}
     	
     	const user = localStorage.getItem('user');
@@ -99,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		const newchannel = document.createElement('button');
 		//newchannel.setAttribute("class", "channels");
-		newchannel.className = ('channels btn btn-primary');
+		newchannel.className = ('channels btn btn-light');
 		newchannel.innerHTML = data.channel;
 		newchannel.onclick = addchannel;
 		//edit
@@ -170,7 +194,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     function addchannel(){
+    	document.querySelectorAll('.channels').forEach(function(button) {
 
+			button.className = ('channels btn btn-light');
+    	});
+
+    	this.className = ('channels clicked btn btn-secondary');
 		const user = localStorage.getItem('user');
 		const channel_new = this.dataset.channel;
 		socket.emit('channel entered', {'channel': channel_new, 'user': user});

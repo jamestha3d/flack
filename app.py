@@ -11,7 +11,8 @@ socketio = SocketIO(app)
 
 channels_list = []
 chats={}
-test = {}
+users_list = []
+
 
 
 @app.route("/")
@@ -28,6 +29,19 @@ def channels():
 		return jsonify({"error": True, "reqchan": channel})
 
 
+@socketio.on("start")
+def start(data):
+	person = data["user"]
+	if data["new"] == 'yes':
+		if person not in users_list:
+			users_list.append(person)
+			emit('logged_in', {"user": person})
+		else:
+			emit('user exists')
+	else:
+		emit('logged_in', {"user": person})
+
+	
 
 @socketio.on("add channel")
 def add_channel(data):
@@ -35,9 +49,8 @@ def add_channel(data):
 	if channel in chats:
 		#error
 		username = data["user"]
-		test["user"] = username
-		test["channel"] = channel
-		emit("already exists", {"success": False, "user": username}, broadcast=True)
+	
+		emit("already exists", {"success": False, "user": username})
 
 	else:
 		channels_list.append(channel)

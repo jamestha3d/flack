@@ -33,15 +33,16 @@
   <div id="sidenavbtn">
   <input type="text" id="channelname" class="form-control" placeholder="Channel Name">
 
-  <button id="addchannel" class="btn btn-success"> + </button>
+  <button id="addchannel" class="btn btn-primary"> + </button>
   </div>
 
   {% for channel in channels %}
 
-  <button id={{channel}} class="channels btn btn-primary" data-channel="{{channel}}"> {{channel}} </button>
+  <button id={{channel}} class="channels btn btn-light" data-channel="{{channel}}"> {{channel}} </button>
 
   {% else %}
-  <a id="nochannel"> No Channel </a>
+
+  <a id="nochannel"> <br><br><br> No Channels </a>
   {% endfor %}
   
 
@@ -51,9 +52,10 @@
   
 </div>
 
+<div id="header_all"> <a id="text"></a><button id="logout" class="btn btn-dark"onclick="localStorage.clear();alert('you logged out'); window.location.reload();">Logout</button></div>
 
 <div class="maindiv" id="maindiv">
-<div id="text"></div>
+<!-- <div id="header_all"> <a id="text"></a><button id="logout" class="btn btn-danger"onclick="localStorage.clear(); window.location.reload();">Logout</button></div> -->
 
 <div id="chatroom_head"></div>
 

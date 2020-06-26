@@ -1,5 +1,6 @@
 body {
   font-family: "Lato", sans-serif;
+  position: relative;
 }
 
 .sidenav {
@@ -9,9 +10,14 @@ body {
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: #111;
+  /*background-color: #00ACEE; light blue
+  #111 black; #003152 prussian_blue
+  /*background-color: #871f78; purple*/ 
+  background-color: #003152;
   overflow-x: hidden;
   padding-top: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .sidenav a,h2 {
@@ -26,8 +32,15 @@ body {
   color: #f1f1f1;
 }
 
+#sidenavbtn{
+  display:flex;
+
+}
+
 #nochannel{
-  color: red;
+  color: white;
+  padding-left: 20px;
+  
 }
 
 .maindiv {
@@ -36,9 +49,10 @@ body {
   margin-right: 150px; /* Same as the width of the alertnav */
   position: relative;
 
-  
+}
 
-
+.maindiv h1{
+  text-align: center;
 }
 
 @media screen and (max-height: 450px) {
@@ -57,8 +71,12 @@ body {
   
 }*/
 
-.channels{
-  display:grid;
+.channels {
+  display:grid !important;
+}
+
+.clicked, .clicked:visited, .clicked:active, .clicked:hover{
+  border: none !important;
 }
 
 
@@ -73,6 +91,7 @@ body {
   /*background-color: #808080;*/
   overflow-x: hidden;
   padding-top: 20px;
+  display: none;
 }
 /* alerts*/
 #alerts a{
@@ -81,24 +100,39 @@ body {
 }
 
 #chatroom {
-  width: 50%;
-  height: 80%;
+  width: 70%;
+  height: 77%;
   margin-left: 20px;
   margin-right: 20px;
+  top: 80px;
   position:fixed;
   text-align: center;
   overflow: auto;
+  padding-right: 50px;
+  padding-left: 30px;
+  border: 1px solid #dedede;
+  border-radius: 5px;
+   /*====*/
+}
 
-  
-  /*====*/
-  
-  
-  
+#header_all{
+  float:right;
+  right:0;
+  margin-right: 50px;
+  display: flex;
+}
+#logout{
+  border-radius:40px !important;
+  height: 30px !important;
+  padding-top:0px ;
 
 }
+
 /* input field for new channel name*/
 #channelname{
+  background-color: #ffffff;
   background-color: yellow;
+  max-width: 140px;
 }
 
 /* diplay name*/
@@ -108,13 +142,14 @@ body {
 
 /* Chat box which holds input and send button*/
 #chatlist{
-  width: 50%;
+  width: 81%;
   position:fixed;
   margin-left: 20px;
   margin-right: 20px;
   bottom: 20px;
 
 }
+
 
 
 
@@ -138,7 +173,8 @@ body {
   background-color: #f1f1f1;
   border-radius: 5px;
   padding: 10px;
-  margin: 10px 0;
+  margin: 10px 0px;
+  position:relative;
   /*====*/
  
 }
@@ -146,19 +182,39 @@ body {
 #userid {
   float: left;
   left: 0;
-  top: 0;
-  color:blue;
+  bottom: 0;
+  position: absolute;
+  color: #626f78;
+  font-size: 12px;
+  font-weight: bold;
 
+}
+
+.darker #userid{
+  float: right;
 }
 
 .darker {
   border-color: #ccc;
-  background-color: #ddd;
+  /*background-color: #ddd;*/
+  /*background-color: #ADD8E6;*/
+  background-color: #93ccea;
+  /*background-color: #FDFFF5;*/ 
+
 }
 
 #msgbox{
-  text-align: left;
-  color: green;
+  margin-left: 50px;
+  padding: 10px;
+  /*text-align: left;
+  color: black;
+  top: 0;
+  font-size: 15px;
+  left: 60px;
+  
+  padding: 50px;*/
+  
+   
 }
 
 .chatmsg::after {
@@ -169,24 +225,42 @@ body {
 
 .chatmsg img {
   float: left;
+  top: 0;
+  left: 0;
+  /*position:absolute;*/
+  max-width: 60px;
+  width: 100%;
+  /*margin-right: 20px;*/
+  border-radius: 50%;
+
+}
+
+/*.darker img {
+  float: right;
+  top: 3px;
+  left: 3px;
+  position:absolute;
   max-width: 60px;
   width: 100%;
   margin-right: 20px;
   border-radius: 50%;
-}
 
-.chatmsg img.right {
-  float: right;
+
+
   margin-left: 20px;
   margin-right:0;
-}
+} */
 
-.time-right {
+.time {
   float: right;
   color: #aaa;
+  font-size: 12px;
+  right:0;
+  bottom:0;
+  position:absolute;
 }
 
-.time-left {
+.darker .time {
   float: left;
   color: #999;
 }
