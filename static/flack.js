@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		input1.setAttribute("id", "chatmsg");
 		input1.setAttribute("type", "text");
 		input1.setAttribute("class", "form-control")
-		input1.setAttribute("placeholder", "Chat msg here");
+		input1.setAttribute("placeholder", "Message...");
 		div.append(input1);
 		const input2 = document.createElement('button');
 		input2.setAttribute("id", "sendchatbtn");
