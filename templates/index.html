@@ -15,49 +15,57 @@
   <img src="static/chatlogo.png" alt="Avatar" style="width:5%;">
   {% raw -%}
   <a id="userid"> {{user}} </a>
-  <span id="msgbox"> {{msg}} </span>
-  <span class="time-right">{{time}}</span> 
+  <p id="msgbox"> {{msg}} </p>
+  <span class="time">{{time}}</span> 
   {%- endraw %}
 
 
+
 </script>
+
+
 </head>
 <body>
 
-<form>
+
 <div id="channels" class="sidenav">
   <h2>Channels</h2>
-  <input type="text" id="channelname" placeholder="Channel Name">
+  <div id="sidenavbtn">
+  <input type="text" id="channelname" class="form-control" placeholder="Channel Name">
 
-  <button id="addchannel"> + </button>
+  <button id="addchannel" class="btn btn-success"> + </button>
+  </div>
 
   {% for channel in channels %}
 
-  <button id={{channel}} class="channels" data-channel="{{channel}}"> {{channel}} </button>
+  <button id={{channel}} class="channels btn btn-primary" data-channel="{{channel}}"> {{channel}} </button>
 
   {% else %}
   <a id="nochannel"> No Channel </a>
   {% endfor %}
+  
 
 
   
 
   
 </div>
-</form>
+
 
 <div class="maindiv" id="maindiv">
 <div id="text"></div>
 
+<div id="chatroom_head"></div>
+
 
   <div id="chatroom">
-    <h1 id="welcome">Welcome to Flack! </h1>
+    <h1 id="welcome"></h1>
   </div>
   
   
 </div>
 
-<div id="alerts" class="alerts" style="display:none">
+<div id="alerts" class="alerts">
   <h2> Alerts </h2>
 </div>
 

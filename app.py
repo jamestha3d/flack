@@ -11,7 +11,7 @@ socketio = SocketIO(app)
 
 channels_list = []
 chats={}
-test = []
+test = {}
 
 
 @app.route("/")
@@ -21,7 +21,7 @@ def index():
 @app.route("/channels", methods=["POST"])
 def channels():
 	channel = request.form.get("channel")
-	test.append(channel)
+	
 	if channel in chats:
 		return jsonify(chats[channel])
 	else:
@@ -35,7 +35,9 @@ def add_channel(data):
 	if channel in chats:
 		#error
 		username = data["user"]
-		emit("channel already exists", {"success": False, "user": username}, broadcast=True)
+		test["user"] = username
+		test["channel"] = channel
+		emit("already exists", {"success": False, "user": username}, broadcast=True)
 
 	else:
 		channels_list.append(channel)
@@ -43,7 +45,7 @@ def add_channel(data):
 		#channel = ' ' + channel + ' '
 		chats[channel] = []
 		emit("channel added", {"channel": channel, "success": True}, broadcast=True)
-		print('emited')
+		#print('emited')
 
 
 
