@@ -1,14 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+	//when DOM loads, create socket connection.
 	var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+
+	//compile handlebars template
 	const template = Handlebars.compile(document.querySelector('#chatpost').innerHTML);
 
+	//set onclick value for all channels
 	document.querySelectorAll('.channels').forEach(function(button) {
 
 		button.onclick = addchannel;
     });
 
+	//log user in function
 	function log_user() {
+		//if no user already exists create new user
 		if (!localStorage.getItem('user')){
 			var txt;
 			var person = prompt("Please Choose a display Name: ", );
@@ -18,6 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	            localStorage.setItem('user', person);
 				document.querySelector("#text").innerHTML = txt;
 				socket.emit('start', {'user': person, 'new': 'no'});
+
+				//if new user enters a name successfully
 			} else{
 				txt = person;
 				//ajax request if person already exists
@@ -25,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				socket.emit('start', {'user': person, 'new': 'yes'});
 			}
 
-		}
+		}//if user already exists then load their name and go to start.
 		else{
 			person = localStorage.getItem('user');
 			document.querySelector("#text").innerHTML = person;
@@ -33,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		}
 
-	}
+	} //enables chat to stay scrolled to the bottom
 
 	function updateScroll(){
 	    var element = document.getElementById("chatroom");
@@ -41,30 +49,21 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	
-
+	//once the socket connects, run the log user in function
 	socket.on('connect', () => {
 		log_user();
 		//socket.emit('start');
 	})
-	/*if(localStorage.getItem('channel')){
 
-		document.getElementById(localStorage.getItem('channel')).click();
-
-		
-	}*/
-
+	//if you get a server side response that user is already taken, try login user again.
 	socket.on('user exists', () => {
 		alert('username already taken');
 		log_user();
 	})
 
 
-
-	
-	//var socket = io.connect({transports: ['websocket']});
-
+	//when user is logged in, look if they have a channel
     socket.on('logged_in', data => {
-    	console.log('connected');
 
     	const person_logged = data.user
     	localStorage.setItem('user', person_logged);
@@ -92,9 +91,11 @@ document.addEventListener('DOMContentLoaded', () => {
 			document.querySelector('#welcome').innerHTML = 'Welcome To Flack! <br> <br> <br> <br> <br> The Single-page Chat Site ';
 		}
     	
+    	//alert that user joined
     	const user = localStorage.getItem('user');
     	socket.emit('Joined', {'user': user});
         
+        //function for add channel button
         document.querySelector('#addchannel').onclick = () => {
         	console.log('add channel');
         	const channel = document.querySelector('#channelname').value;
@@ -127,12 +128,9 @@ document.addEventListener('DOMContentLoaded', () => {
         	document.querySelector('#nochannel').remove();
 
 		const newchannel = document.createElement('button');
-		//newchannel.setAttribute("class", "channels");
 		newchannel.className = ('channels btn btn-light');
 		newchannel.innerHTML = data.channel;
 		newchannel.onclick = addchannel;
-		//edit
-		//newchannel.setAttribute('id', data.channel);
 		newchannel.setAttribute('data-channel', data.channel);
 		document.querySelector("#channels").append(newchannel);
 		console.log('new channel added');		
@@ -144,7 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     socket.on('already exists', data => {
-    	/*if (!data.success){*/
     		
     		console.log('already exists');
     		const fail = data.user;
@@ -155,10 +152,8 @@ document.addEventListener('DOMContentLoaded', () => {
     		}
     		console.log('done');
     		
-
-    	//}
-
     });
+
 
     socket.on('chat received', data => {
 
@@ -185,8 +180,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     socket.on('joined', data => {
-
-    	//alert of newuser
     	
     	const user = data.user;
     	const channel = data.channel;
@@ -245,14 +238,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		};
 		div.append(input2);
-		/*const div2 = document.createElement('div');
-		div2.setAttribute("id", "chatroom_head");
-		div2.append(h1);*/
+
 
 		document.querySelector('#chatroom').innerHTML='';
-
-		/*if (document.querySelector('#chatroom_header'))
-			document.querySelector('#chatroom_header').remove();*/
 
 		document.querySelector('#chatroom_head').innerHTML = '';
 

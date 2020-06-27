@@ -1,6 +1,8 @@
 body {
   font-family: "Lato", sans-serif;
   position: relative;
+  overflow-x: scroll;
+  overflow-y: scroll; 
 }
 
 .sidenav {
@@ -48,6 +50,9 @@ body {
   margin-left: 200px; /* Same as the width of the sidenav */
   margin-right: 150px; /* Same as the width of the alertnav */
   position: relative;
+  overflow-x: scroll;
+  overflow-y: scroll; 
+}
 
 }
 
@@ -202,7 +207,7 @@ body {
 
 #userid {
   float: left;
-  left: 5px;
+  left: 7px;
   bottom: 0;
   position: absolute;
   color: #626f78;
