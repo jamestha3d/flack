@@ -54,7 +54,6 @@ body {
   overflow-y: scroll; 
 }
 
-}
 
 .maindiv h1{
   text-align: center;
@@ -86,17 +85,17 @@ body {
 
 
 
-.alerts {
+.alertsdiv {
   height: 100%;
   width: 150px;
   position: fixed;
   z-index: 1;
-  top: 0;
+  top: 20px;
   right: 0;
   /*background-color: #808080;*/
   overflow-x: hidden;
   padding-top: 20px;
-  display: none;
+
 }
 /* alerts*/
 #alerts a{
@@ -131,6 +130,7 @@ body {
   right:0;
   margin-right: 50px;
   display: flex;
+  z-index:1;
 }
 #logout{
   border-radius:40px !important;
@@ -255,7 +255,7 @@ body {
   top: 0;
   left: 0;
   /*position:absolute;*/
-  max-width: 60px;
+  max-width: 45px;
   width: 100%;
   /*margin-right: 20px;*/
   border-radius: 50%;

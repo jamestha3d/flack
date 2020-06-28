@@ -6,12 +6,15 @@ document.addEventListener('DOMContentLoaded', () => {
 	//compile handlebars template
 	const template = Handlebars.compile(document.querySelector('#chatpost').innerHTML);
 
+	const alert_template = Handlebars.compile(document.querySelector('#alertpost').innerHTML);
+
 	//set onclick value for all channels
 	document.querySelectorAll('.channels').forEach(function(button) {
 
 		button.onclick = addchannel;
     });
 
+	
 	//log user in function
 	function log_user() {
 		//if no user already exists create new user
@@ -20,7 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			var person = prompt("Please Choose a display Name: ", );
 			if (person == null || person == "") {
 				txt = "Anonymous";
-	            person = 'Anonymous';
+	            person = 'Anonymous' + Math.floor((Math.random() * 9999) + 1);
+
 	            localStorage.setItem('user', person);
 				document.querySelector("#text").innerHTML = txt;
 				socket.emit('start', {'user': person, 'new': 'no'});
@@ -41,11 +45,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		}
 
+
 	} //enables chat to stay scrolled to the bottom
 
 	function updateScroll(){
 	    var element = document.getElementById("chatroom");
 	    element.scrollTop = element.scrollHeight;
+	}
+
+	document.querySelector('#logout').onclick = () =>{
+		localStorage.clear();
+		alert_user('Warning!','alert-warning','You logged out'); 
+		window.location.reload();
 	}
 
 	
@@ -57,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	//if you get a server side response that user is already taken, try login user again.
 	socket.on('user exists', () => {
-		alert('username already taken');
+		alert_user('Error!','alert-danger', 'Username Already Taken');
 		log_user();
 	})
 
@@ -65,7 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	//when user is logged in, look if they have a channel
     socket.on('logged_in', data => {
 
-    	const person_logged = data.user
+    	const person_logged = data.user;
+    	
     	localStorage.setItem('user', person_logged);
 
 		document.querySelector("#text").innerHTML = person_logged;
@@ -75,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     		if(document.getElementById(localStorage.getItem('channel'))){
     			if(document.getElementById(localStorage.getItem('channel')).click()){
     				document.getElementById(localStorage.getItem('channel')).click();
+    				console.log('clicked the channel');
     			}
     			
     			else{
@@ -100,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         	console.log('add channel');
         	const channel = document.querySelector('#channelname').value;
         	if(channel === '' || channel === null){
-        		alert('Please Enter A Channel Name');
+        		alert_user('Error!','alert-danger', 'Please Enter A Channel Name');
 
         	}
         	else{
@@ -143,14 +156,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     socket.on('already exists', data => {
     		
-    		console.log('already exists');
+    		
     		const fail = data.user;
     		const curr_user = localStorage.getItem('user');
     		//alert user of error 
     		if (fail === curr_user){
-    			alert('Channel Already Exists');
+    			alert_user('Error!','alert-danger', 'Channel Already Exists');
     		}
-    		console.log('done');
+    		
     		
     });
 
@@ -163,11 +176,10 @@ document.addEventListener('DOMContentLoaded', () => {
     	const channel = data.channel;
     	const username = data.username;
     	const chatpost = template({'msg': msg, 'user': username, 'time': time});
-    	console.log('template compiled');
     	const divchat = document.createElement('div');
     	divchat.setAttribute("class", "chatmsg" );
     	if (username === localStorage.getItem('user')){
-    		console.log('same user');
+    		
     		divchat.setAttribute("class", "chatmsg darker");
     	}
     	divchat.innerHTML = chatpost;
@@ -183,9 +195,16 @@ document.addEventListener('DOMContentLoaded', () => {
     	
     	const user = data.user;
     	const channel = data.channel;
-    	const alert = document.createElement('a');
-    	alert.innerHTML = user + ' entered ' + channel;
-    	document.querySelector('#alerts').append(alert);
+    	if (user != localStorage.getItem('user')){
+    		if (localStorage.getItem('channel'))
+    		if(localStorage.getItem('channel') == channel)
+    			alert_user('Info!','alert-info', user + ' entered ' + channel);
+    	}
+    	
+    	// if (localStorage.getItem('channel'))
+    	// 	if(localStorage.getItem('channel') == channel)
+    	// 		alert_user('Info!','alert-info', user + ' entered ' + channel);
+    	
 
 
     });
@@ -269,7 +288,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			    	const divchat = document.createElement('div');
 			    	divchat.setAttribute("class", "chatmsg" );
 			    	    if (username2 === localStorage.getItem('user')){
-				    		console.log('same user');
 				    		divchat.setAttribute("class", "chatmsg darker");
 				    	}
 
@@ -330,9 +348,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 	}
+	
 
+	function alert_user (type, alert_type, message){
+		const alerts = alert_template({'type': type, 'alert_type': alert_type, 'message': message});
+		const divAlert = document.createElement('div');
+		divAlert.className = ('alertmsg');
+		//divAlert.setAttribute('id', alertNo);
+		divAlert.innerHTML = alerts;
+		document.querySelector('#alerts').append(divAlert);
+		//wait 5 sec
+		//click the button
 
+		//setTimeout(function(){ c[1].click(); }, 2000);
+		
+	}
 
+	/*document.querySelectorAll('.alertmsg').forEach(function(alertz) {
+
+		var a = alertz.children;
+		var c = a[0].children;
+		setTimeout(function(){ c[1].click(); }, 1000);
+    });*/
 
 
 });

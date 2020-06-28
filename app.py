@@ -12,16 +12,18 @@ socketio = SocketIO(app)
 channels_list = []
 chats={}
 users_list = []
+test = []
 
 
 
 @app.route("/")
 def index():
-    return render_template("index.html", channels = channels_list)
+    return render_template("index.html", channels = channels_list, chats=chats, test=test)
 
 @app.route("/channels", methods=["POST"])
 def channels():
 	channel = request.form.get("channel")
+	test.append(channel)
 	
 	if channel in chats:
 		return jsonify(chats[channel])
