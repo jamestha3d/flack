@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
 	//when DOM loads, create socket connection.
-	let socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+	var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 
 	//compile handlebars template
 	const template = Handlebars.compile(document.querySelector('#chatpost').innerHTML);
