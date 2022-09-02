@@ -5,4 +5,3 @@ python-socketio==4.6.0
 git+https://github.com/untitaker/werkzeug.git@reloader-perf
 gunicorn
 psycopg2==2.9
-requests
