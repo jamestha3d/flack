@@ -47,6 +47,7 @@ def start(data):
 
 @socketio.on("add channel")
 def add_channel(data):
+	print("channel created received on server side")
 	channel = data["channel"]
 	if channel in chats:
 		#error
