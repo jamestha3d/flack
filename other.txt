@@ -4,4 +4,4 @@ python-engineio==3.13.2
 python-socketio==4.6.0
 gunicorn
 psycopg2
-Werkzeug==2.0.1
+Werkzeug==2.2.3
